@@ -15,6 +15,8 @@ namespace SportsOrderApp.Entities
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public DateTime? LogDateTime { get; set; }
+        public long? LogSeqNo { get; set; }
+        public long? MockupRequestNo { get; set; }
 
         public virtual JsTblUser? ClientUser { get; set; }
         public virtual JsTblUser? HostUser { get; set; }

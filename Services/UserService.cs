@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using SportsOrderApp.Core;
 using SportsOrderApp.DTOs;
 using SportsOrderApp.Entities;
+using SportsOrderApp.Helper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,20 +15,21 @@ namespace SportsOrderApp.Services
     {
         public IList<UserListModel> GetClientUserList();
         public bool ValidateUser(string username, string password);
-        public string GenerateJwtToken(string username);
+        public VerificationCodeResult ValidateICUser(string icNumber);
         UserModel GetUserByUsername(string username);
-
+        public void RegisterUser(RegisterModel model);
     }
     public class UserService: IUserService
     {
        private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
-        private readonly JwtSettings _jwtSettings;
-        public UserService(IMapper mapper, IUserRepository userRepository, JwtSettings jwtSettings) 
+        private readonly IVerificationCodeRepository _verificationCodeRepository;
+        public UserService(IMapper mapper, IUserRepository userRepository,
+            IVerificationCodeRepository verificationCodeRepository) 
         {
             _mapper = mapper;
             _userRepository = userRepository;
-            _jwtSettings = jwtSettings;
+            _verificationCodeRepository = verificationCodeRepository;
         }
         public UserModel GetUserByUsername(string username)
         {
@@ -50,22 +52,40 @@ namespace SportsOrderApp.Services
 
             return BCrypt.Net.BCrypt.Verify(password, user.Password);
         }
-
-        public string GenerateJwtToken(string username)
+        public VerificationCodeResult ValidateICUser(string icNumber)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret); // Ensure this key is at least 32 characters
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var user = _userRepository.FindBy(x => x.IcNumber == icNumber).FirstOrDefault();
+            VerificationCodeResult res = new VerificationCodeResult();
+
+            if (user == null)
             {
-                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }),
-                Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiryMinutes),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                res.Flag = false;
+                return res;
+            }
+            user.IsVerified = false;
+            _userRepository.Update(user);
+            _userRepository.Commit();
+
+            string otp = MaskingHelper.GenerateOTP();
+            var verification = new JsTblVerificationCode
+            {
+                UserId = user.UserId,
+                Code = otp,
+                CodeType = "Mobile",
+                Expiry = DateTime.UtcNow.AddMinutes(5),
+                IsUsed = false
             };
+            _verificationCodeRepository.Add(verification);
+            _verificationCodeRepository.Commit();
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            string maskedMobile = MaskingHelper.MaskMobile(user.Mobile);
+            var token = GenerateToken(user.UserId);
+            res.Code = otp;
+            res.Message = "For Account Verification OTP Sent To Your Mobile No. "+ maskedMobile +" ";
+            res.Flag = true;
+            res.Token = token;
+            return res;
         }
-
 
         public void RegisterUser(RegisterModel model)
         {
@@ -87,6 +107,36 @@ namespace SportsOrderApp.Services
             res.ModifiedDate = DateTime.Now;
             _userRepository.Add(res);
             _userRepository.Commit();
+        }
+
+        public string GenerateToken(long userId)
+        {
+            var jwtSettings = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build()
+                .GetSection("JwtSettings");
+
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+        new Claim("userId", userId.ToString()),
+        new Claim("TokenType", "OTPVerification"), // Custom claim for token type
+        //new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Iat, ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeSeconds().ToString())
+    };
+
+            var token = new JwtSecurityToken(
+                issuer: jwtSettings["Issuer"],
+                audience: jwtSettings["Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(5),
+                signingCredentials: credentials
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

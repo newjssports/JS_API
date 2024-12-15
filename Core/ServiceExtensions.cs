@@ -7,21 +7,27 @@ namespace SportsOrderApp.Core
     {
         public static void AddServiceLayer(this IServiceCollection services)
         {
-            
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVerifyOTPService, VerifyOTPService>();
+
             services.AddScoped<IMainCategoryService, MainCategoryService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ISubCategoryService, SubCategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFabricTypeService, FabricTypeService>();
             services.AddScoped<INeckStyleService, NeckStyleService>();
-            services.AddScoped<IUserService, UserService>();
+            
             services.AddScoped<IProductSizeListService, ProductSizeListService>();
 
             services.AddScoped<IMockupService, MockupService>();
             services.AddScoped<IMockupAttachmentService, MockupAttachmentService>();
-
-            // IUserMockupDesignRightsService
+            services.AddScoped<IProductPriceListService, ProductPriceListService>();
             services.AddScoped<IUserMockupDesignRightsService, UserMockupDesignRightsService>();
+
+            services.AddScoped<IProductSizePriceMasterService, ProductSizePriceMasterService>();
+            services.AddScoped<IProductSizePriceDetailService, ProductSizePriceDetailService>();
+            services.AddScoped<IUserProfileService, UserProfileService>();
+
             //services.AddScoped<ICityService, CityService>();
             //services.AddScoped<IClientAccountService, ClientAccountService>();
             //services.AddScoped<IClientRolePermissionService, ClientRolePermissionService>();

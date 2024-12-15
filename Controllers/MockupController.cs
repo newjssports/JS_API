@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using SportsOrderApp.DTOs;
 using SportsOrderApp.Services;
 
 namespace SportsOrderApp.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MockupController : ControllerBase
@@ -36,9 +39,10 @@ namespace SportsOrderApp.Controllers
                 {
                     return BadRequest("Required header not found.");
                 }
+                var max_val = _mockupService.GenerateNewMaxValue("JS_TBL_MOCKUP", "MOCKUP_REQUEST_NO").Result;
                 foreach (var mockup in addNewMockups)
                 {
-                    _mockupService.AddNewMockup(mockup);
+                    _mockupService.AddNewMockup(mockup, max_val);
                 }
                 
                 return Ok("All mockups submitted successfully.");
@@ -47,6 +51,23 @@ namespace SportsOrderApp.Controllers
             {
                 // Log the exception (if necessary)
                 return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpPost("upload")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Upload([FromForm] IFormFile file,long? mockupId)
+        {
+            try
+            {
+                var imagePath = await _mockupService.SaveImageAsync(file, 1);
+                return Ok(new { imagePath });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
         #endregion

@@ -8,6 +8,7 @@ namespace SportsOrderApp.Entities
         public JsTblSubCategory()
         {
             JsTblMockups = new HashSet<JsTblMockup>();
+            JsTblOrderRequests = new HashSet<JsTblOrderRequest>();
             JsTblProducts = new HashSet<JsTblProduct>();
         }
 
@@ -26,6 +27,7 @@ namespace SportsOrderApp.Entities
 
         public virtual JsTblCategory? Category { get; set; }
         public virtual ICollection<JsTblMockup> JsTblMockups { get; set; }
+        public virtual ICollection<JsTblOrderRequest> JsTblOrderRequests { get; set; }
         public virtual ICollection<JsTblProduct> JsTblProducts { get; set; }
     }
 }

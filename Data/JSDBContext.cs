@@ -34,6 +34,8 @@ namespace SportsOrderApp.Data
         public virtual DbSet<JsTblOrderDesignStep> JsTblOrderDesignSteps { get; set; } = null!;
         public virtual DbSet<JsTblOrderDesignStepUserRight> JsTblOrderDesignStepUserRights { get; set; } = null!;
         public virtual DbSet<JsTblOrderDesignStepsName> JsTblOrderDesignStepsNames { get; set; } = null!;
+        public virtual DbSet<JsTblOrderRequest> JsTblOrderRequests { get; set; } = null!;
+        public virtual DbSet<JsTblOrderRequestLog> JsTblOrderRequestLogs { get; set; } = null!;
         public virtual DbSet<JsTblPriceList> JsTblPriceLists { get; set; } = null!;
         public virtual DbSet<JsTblProduct> JsTblProducts { get; set; } = null!;
         public virtual DbSet<JsTblProductSizeList> JsTblProductSizeLists { get; set; } = null!;
@@ -43,6 +45,7 @@ namespace SportsOrderApp.Data
         public virtual DbSet<JsTblSubCategory> JsTblSubCategories { get; set; } = null!;
         public virtual DbSet<JsTblSupplier> JsTblSuppliers { get; set; } = null!;
         public virtual DbSet<JsTblUser> JsTblUsers { get; set; } = null!;
+        public virtual DbSet<JsTblVerificationCode> JsTblVerificationCodes { get; set; } = null!;
         public virtual DbSet<State> States { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -50,7 +53,7 @@ namespace SportsOrderApp.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-H0EFBJV\\AAMIRALI;Database=JSSPORTS;User Id=sports;Password=abc123;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-H0EFBJV\\AAMIRALI;Database=JSSPORTS;User Id=sports;Password=Aamir123$;");
             }
         }
 
@@ -443,6 +446,8 @@ namespace SportsOrderApp.Data
                     .IsUnicode(false)
                     .HasColumnName("MOCKUP_NAME");
 
+                entity.Property(e => e.MockupRequestNo).HasColumnName("MOCKUP_REQUEST_NO");
+
                 entity.Property(e => e.ModifiedBy)
                     .HasMaxLength(50)
                     .IsUnicode(false)
@@ -766,7 +771,11 @@ namespace SportsOrderApp.Data
                     .HasColumnType("datetime")
                     .HasColumnName("LOG_DATE_TIME");
 
+                entity.Property(e => e.LogSeqNo).HasColumnName("LOG_SEQ_NO");
+
                 entity.Property(e => e.MockupId).HasColumnName("MOCKUP_ID");
+
+                entity.Property(e => e.MockupRequestNo).HasColumnName("MOCKUP_REQUEST_NO");
 
                 entity.Property(e => e.ModifiedBy)
                     .HasMaxLength(50)
@@ -951,6 +960,273 @@ namespace SportsOrderApp.Data
                     .HasColumnName("NAME");
             });
 
+            modelBuilder.Entity<JsTblOrderRequest>(entity =>
+            {
+                entity.HasKey(e => e.OrderRequestId);
+
+                entity.ToTable("JS_TBL_ORDER_REQUEST");
+
+                entity.Property(e => e.OrderRequestId).HasColumnName("ORDER_REQUEST_ID");
+
+                entity.Property(e => e.Active).HasColumnName("ACTIVE");
+
+                entity.Property(e => e.Attribute1)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_1");
+
+                entity.Property(e => e.Attribute10)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_10");
+
+                entity.Property(e => e.Attribute11).HasColumnName("ATTRIBUTE_11");
+
+                entity.Property(e => e.Attribute12).HasColumnName("ATTRIBUTE_12");
+
+                entity.Property(e => e.Attribute13).HasColumnName("ATTRIBUTE_13");
+
+                entity.Property(e => e.Attribute14).HasColumnName("ATTRIBUTE_14");
+
+                entity.Property(e => e.Attribute15).HasColumnName("ATTRIBUTE_15");
+
+                entity.Property(e => e.Attribute16)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ATTRIBUTE_16");
+
+                entity.Property(e => e.Attribute17)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ATTRIBUTE_17");
+
+                entity.Property(e => e.Attribute18)
+                    .HasColumnType("datetime")
+                    .HasColumnName("ATTRIBUTE_18");
+
+                entity.Property(e => e.Attribute19)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_19");
+
+                entity.Property(e => e.Attribute2)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_2");
+
+                entity.Property(e => e.Attribute20)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_20");
+
+                entity.Property(e => e.Attribute3)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_3");
+
+                entity.Property(e => e.Attribute4)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_4");
+
+                entity.Property(e => e.Attribute5)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_5");
+
+                entity.Property(e => e.Attribute6)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_6");
+
+                entity.Property(e => e.Attribute7)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_7");
+
+                entity.Property(e => e.Attribute8)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_8");
+
+                entity.Property(e => e.Attribute9)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_9");
+
+                entity.Property(e => e.CategoryId).HasColumnName("CATEGORY_ID");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("CREATED_BY");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_DATE");
+
+                entity.Property(e => e.Deleted).HasColumnName("DELETED");
+
+                entity.Property(e => e.FabricTypeId).HasColumnName("FABRIC_TYPE_ID");
+
+                entity.Property(e => e.IsMockupReference).HasColumnName("IS_MOCKUP_REFERENCE");
+
+                entity.Property(e => e.IsNewOrder).HasColumnName("IS_NEW_ORDER");
+
+                entity.Property(e => e.MainCategoryId).HasColumnName("MAIN_CATEGORY_ID");
+
+                entity.Property(e => e.MockupId).HasColumnName("MOCKUP_ID");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODIFIED_BY");
+
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("MODIFIED_DATE");
+
+                entity.Property(e => e.NeckStyleId).HasColumnName("NECK_STYLE_ID");
+
+                entity.Property(e => e.Note)
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("NOTE");
+
+                entity.Property(e => e.OrderRequestNo).HasColumnName("ORDER_REQUEST_NO");
+
+                entity.Property(e => e.OrderStatus)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("ORDER_STATUS");
+
+                entity.Property(e => e.OrderType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ORDER_TYPE");
+
+                entity.Property(e => e.ProductId).HasColumnName("PRODUCT_ID");
+
+                entity.Property(e => e.SubCategoryId).HasColumnName("SUB_CATEGORY_ID");
+
+                entity.Property(e => e.TeamName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("TEAM_NAME");
+
+                entity.Property(e => e.UserId).HasColumnName("USER_ID");
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_CATEGORY");
+
+                entity.HasOne(d => d.MainCategory)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.MainCategoryId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_MAIN_CATEGORY");
+
+                entity.HasOne(d => d.Mockup)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.MockupId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_MOCKUP");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.ProductId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_PRODUCT");
+
+                entity.HasOne(d => d.SubCategory)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.SubCategoryId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_SUB_CATEGORY");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.JsTblOrderRequests)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_JS_TBL_USER");
+            });
+
+            modelBuilder.Entity<JsTblOrderRequestLog>(entity =>
+            {
+                entity.HasKey(e => e.OrderRequestLogId);
+
+                entity.ToTable("JS_TBL_ORDER_REQUEST_LOG");
+
+                entity.Property(e => e.OrderRequestLogId).HasColumnName("ORDER_REQUEST_LOG_ID");
+
+                entity.Property(e => e.Active).HasColumnName("ACTIVE");
+
+                entity.Property(e => e.Attribute1)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_1");
+
+                entity.Property(e => e.Attribute2)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_2");
+
+                entity.Property(e => e.Attribute3)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_3");
+
+                entity.Property(e => e.Attribute4)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_4");
+
+                entity.Property(e => e.Attribute5)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ATTRIBUTE_5");
+
+                entity.Property(e => e.CreatedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("CREATED_BY");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("CREATED_DATE");
+
+                entity.Property(e => e.Deleted).HasColumnName("DELETED");
+
+                entity.Property(e => e.IsApproved).HasColumnName("IS_APPROVED");
+
+                entity.Property(e => e.ModifiedBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("MODIFIED_BY");
+
+                entity.Property(e => e.ModifiedDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("MODIFIED_DATE");
+
+                entity.Property(e => e.OrderRequestId).HasColumnName("ORDER_REQUEST_ID");
+
+                entity.Property(e => e.OrderType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ORDER_TYPE");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("STATUS");
+
+                entity.Property(e => e.UserId).HasColumnName("USER_ID");
+
+                entity.HasOne(d => d.OrderRequest)
+                    .WithMany(p => p.JsTblOrderRequestLogs)
+                    .HasForeignKey(d => d.OrderRequestId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_LOG_JS_TBL_ORDER_REQUEST");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.JsTblOrderRequestLogs)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_JS_TBL_ORDER_REQUEST_LOG_JS_TBL_USER");
+            });
+
             modelBuilder.Entity<JsTblPriceList>(entity =>
             {
                 entity.HasKey(e => e.PriceListId);
@@ -1061,6 +1337,136 @@ namespace SportsOrderApp.Data
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("FRONT_IMAGE");
+
+                entity.Property(e => e.IsAllow1).HasColumnName("IS_ALLOW_1");
+
+                entity.Property(e => e.IsAllow10).HasColumnName("IS_ALLOW_10");
+
+                entity.Property(e => e.IsAllow11).HasColumnName("IS_ALLOW_11");
+
+                entity.Property(e => e.IsAllow12).HasColumnName("IS_ALLOW_12");
+
+                entity.Property(e => e.IsAllow13).HasColumnName("IS_ALLOW_13");
+
+                entity.Property(e => e.IsAllow14).HasColumnName("IS_ALLOW_14");
+
+                entity.Property(e => e.IsAllow15).HasColumnName("IS_ALLOW_15");
+
+                entity.Property(e => e.IsAllow16).HasColumnName("IS_ALLOW_16");
+
+                entity.Property(e => e.IsAllow17).HasColumnName("IS_ALLOW_17");
+
+                entity.Property(e => e.IsAllow18).HasColumnName("IS_ALLOW_18");
+
+                entity.Property(e => e.IsAllow19).HasColumnName("IS_ALLOW_19");
+
+                entity.Property(e => e.IsAllow2).HasColumnName("IS_ALLOW_2");
+
+                entity.Property(e => e.IsAllow20).HasColumnName("IS_ALLOW_20");
+
+                entity.Property(e => e.IsAllow21).HasColumnName("IS_ALLOW_21");
+
+                entity.Property(e => e.IsAllow22).HasColumnName("IS_ALLOW_22");
+
+                entity.Property(e => e.IsAllow23).HasColumnName("IS_ALLOW_23");
+
+                entity.Property(e => e.IsAllow24).HasColumnName("IS_ALLOW_24");
+
+                entity.Property(e => e.IsAllow25).HasColumnName("IS_ALLOW_25");
+
+                entity.Property(e => e.IsAllow26).HasColumnName("IS_ALLOW_26");
+
+                entity.Property(e => e.IsAllow27).HasColumnName("IS_ALLOW_27");
+
+                entity.Property(e => e.IsAllow28).HasColumnName("IS_ALLOW_28");
+
+                entity.Property(e => e.IsAllow29).HasColumnName("IS_ALLOW_29");
+
+                entity.Property(e => e.IsAllow3).HasColumnName("IS_ALLOW_3");
+
+                entity.Property(e => e.IsAllow30).HasColumnName("IS_ALLOW_30");
+
+                entity.Property(e => e.IsAllow31).HasColumnName("IS_ALLOW_31");
+
+                entity.Property(e => e.IsAllow32).HasColumnName("IS_ALLOW_32");
+
+                entity.Property(e => e.IsAllow33).HasColumnName("IS_ALLOW_33");
+
+                entity.Property(e => e.IsAllow34).HasColumnName("IS_ALLOW_34");
+
+                entity.Property(e => e.IsAllow35).HasColumnName("IS_ALLOW_35");
+
+                entity.Property(e => e.IsAllow36).HasColumnName("IS_ALLOW_36");
+
+                entity.Property(e => e.IsAllow37).HasColumnName("IS_ALLOW_37");
+
+                entity.Property(e => e.IsAllow38).HasColumnName("IS_ALLOW_38");
+
+                entity.Property(e => e.IsAllow39).HasColumnName("IS_ALLOW_39");
+
+                entity.Property(e => e.IsAllow4).HasColumnName("IS_ALLOW_4");
+
+                entity.Property(e => e.IsAllow40).HasColumnName("IS_ALLOW_40");
+
+                entity.Property(e => e.IsAllow41).HasColumnName("IS_ALLOW_41");
+
+                entity.Property(e => e.IsAllow42).HasColumnName("IS_ALLOW_42");
+
+                entity.Property(e => e.IsAllow43).HasColumnName("IS_ALLOW_43");
+
+                entity.Property(e => e.IsAllow44).HasColumnName("IS_ALLOW_44");
+
+                entity.Property(e => e.IsAllow45).HasColumnName("IS_ALLOW_45");
+
+                entity.Property(e => e.IsAllow46).HasColumnName("IS_ALLOW_46");
+
+                entity.Property(e => e.IsAllow47).HasColumnName("IS_ALLOW_47");
+
+                entity.Property(e => e.IsAllow48).HasColumnName("IS_ALLOW_48");
+
+                entity.Property(e => e.IsAllow49).HasColumnName("IS_ALLOW_49");
+
+                entity.Property(e => e.IsAllow5).HasColumnName("IS_ALLOW_5");
+
+                entity.Property(e => e.IsAllow50).HasColumnName("IS_ALLOW_50");
+
+                entity.Property(e => e.IsAllow51).HasColumnName("IS_ALLOW_51");
+
+                entity.Property(e => e.IsAllow52).HasColumnName("IS_ALLOW_52");
+
+                entity.Property(e => e.IsAllow53).HasColumnName("IS_ALLOW_53");
+
+                entity.Property(e => e.IsAllow54).HasColumnName("IS_ALLOW_54");
+
+                entity.Property(e => e.IsAllow55).HasColumnName("IS_ALLOW_55");
+
+                entity.Property(e => e.IsAllow56).HasColumnName("IS_ALLOW_56");
+
+                entity.Property(e => e.IsAllow57).HasColumnName("IS_ALLOW_57");
+
+                entity.Property(e => e.IsAllow58).HasColumnName("IS_ALLOW_58");
+
+                entity.Property(e => e.IsAllow59).HasColumnName("IS_ALLOW_59");
+
+                entity.Property(e => e.IsAllow6).HasColumnName("IS_ALLOW_6");
+
+                entity.Property(e => e.IsAllow60).HasColumnName("IS_ALLOW_60");
+
+                entity.Property(e => e.IsAllow61).HasColumnName("IS_ALLOW_61");
+
+                entity.Property(e => e.IsAllow62).HasColumnName("IS_ALLOW_62");
+
+                entity.Property(e => e.IsAllow63).HasColumnName("IS_ALLOW_63");
+
+                entity.Property(e => e.IsAllow64).HasColumnName("IS_ALLOW_64");
+
+                entity.Property(e => e.IsAllow65).HasColumnName("IS_ALLOW_65");
+
+                entity.Property(e => e.IsAllow7).HasColumnName("IS_ALLOW_7");
+
+                entity.Property(e => e.IsAllow8).HasColumnName("IS_ALLOW_8");
+
+                entity.Property(e => e.IsAllow9).HasColumnName("IS_ALLOW_9");
 
                 entity.Property(e => e.IsBackDesc).HasColumnName("IS_BACK_DESC");
 
@@ -1523,6 +1929,15 @@ namespace SportsOrderApp.Data
 
                 entity.ToTable("JS_TBL_USER");
 
+                entity.HasIndex(e => e.Email, "UQ_EMAIL")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.IcNumber, "UQ_IC_NUMBER")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Mobile, "UQ_MOBILE")
+                    .IsUnique();
+
                 entity.Property(e => e.UserId).HasColumnName("USER_ID");
 
                 entity.Property(e => e.Active).HasColumnName("ACTIVE");
@@ -1543,6 +1958,11 @@ namespace SportsOrderApp.Data
 
                 entity.Property(e => e.Deleted).HasColumnName("DELETED");
 
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("EMAIL");
+
                 entity.Property(e => e.EmpId).HasColumnName("EMP_ID");
 
                 entity.Property(e => e.FirstName)
@@ -1554,6 +1974,11 @@ namespace SportsOrderApp.Data
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("FULL_NAME");
+
+                entity.Property(e => e.IcNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("IC_NUMBER");
 
                 entity.Property(e => e.IdCardNo)
                     .HasMaxLength(50)
@@ -1604,6 +2029,8 @@ namespace SportsOrderApp.Data
                     .IsUnicode(false)
                     .HasColumnName("PHONE_2");
 
+                entity.Property(e => e.Pin).HasColumnName("PIN");
+
                 entity.Property(e => e.RoleId).HasColumnName("ROLE_ID");
 
                 entity.Property(e => e.Salt)
@@ -1630,6 +2057,30 @@ namespace SportsOrderApp.Data
                     .WithMany(p => p.JsTblUsers)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_JS_TBL_USER_JS_TBL_ROLE");
+            });
+
+            modelBuilder.Entity<JsTblVerificationCode>(entity =>
+            {
+                entity.ToTable("JS_TBL_VERIFICATION_CODES");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Code)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("CODE");
+
+                entity.Property(e => e.CodeType)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserId).HasColumnName("USER_ID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.JsTblVerificationCodes)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JS_TBL_VERIFICATION_CODES_JS_TBL_USER");
             });
 
             modelBuilder.Entity<State>(entity =>

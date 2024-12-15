@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using SportsOrderApp.Data;
 using System.Data;
 using System.Linq.Expressions;
@@ -129,6 +130,23 @@ namespace SportsOrderApp.Repositories
             }
             return table;
         }
+        public async Task<long> GetNextMaxValueAsync(string tableName, string columnName)
+        {
+            long maxValue = 0;
+            var query = $"SELECT ISNULL(MAX([{columnName}]), 0) FROM [{tableName}]";
+
+            using (var connection = new SqlConnection(_context.Database.GetDbConnection().ConnectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new SqlCommand(query, connection))
+                {
+                    var result = await command.ExecuteScalarAsync();
+                    maxValue = (result != DBNull.Value) ? Convert.ToInt64(result) : 0;
+                }
+            }
+            return maxValue + 1;
+        }
+
 
         //public DataTable GetData(string Query, params object[] parameters)
         //{

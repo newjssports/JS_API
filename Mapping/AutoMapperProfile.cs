@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SportsOrderApp.DTOs;
 using SportsOrderApp.Entities;
+using SportsOrderApp.Models;
 
 namespace SportsOrderApp.Mapping
 {
@@ -25,13 +26,19 @@ namespace SportsOrderApp.Mapping
             CreateMap<JsTblUser, UserListModel>();
             CreateMap<JsTblUser, UserModel>();
             CreateMap<RegisterModel, JsTblUser> ();
+            CreateMap<JsTblPriceList, ProductPriceListModel>();
             CreateMap<JsTblProductSizeList, ProductSizeListModel>();
 
             CreateMap<JsTblMockupDesignStepsName, MockupDesignStepsNameModel>();
             CreateMap<JsTblMockupDesignStep, MockupDesignStepsModel>();
+            CreateMap<AddMockupDesignStepsModel, JsTblMockupDesignStep>();
             CreateMap<JsTblMockupDesignStepUserRight, MockupDesignStepsUserRightsModel>();
             CreateMap<JsTblMockup, MockupModel>();
             CreateMap<JsTblMockup, ApprovedMockupModel>();
+            CreateMap<AddMockupAttachment, JsTblMockupAttachment>();
+
+            CreateMap<JsTblProductSizePriceDetail, ProductSizesPriceListModel>();
+            CreateMap<JsTblProductSizePriceMaster, ProductSizePriceListDataModel>();
         }
     }
 }

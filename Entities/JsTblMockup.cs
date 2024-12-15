@@ -9,6 +9,7 @@ namespace SportsOrderApp.Entities
         {
             JsTblMockupAttachments = new HashSet<JsTblMockupAttachment>();
             JsTblMockupLogs = new HashSet<JsTblMockupLog>();
+            JsTblOrderRequests = new HashSet<JsTblOrderRequest>();
         }
 
         public long MockupId { get; set; }
@@ -34,6 +35,7 @@ namespace SportsOrderApp.Entities
         public string? OnlyDesc { get; set; }
         public string? MockupName { get; set; }
         public string? MockupCode { get; set; }
+        public long? MockupRequestNo { get; set; }
 
         public virtual JsTblCategory? Category { get; set; }
         public virtual JsTblFabricType? FabricType { get; set; }
@@ -44,5 +46,6 @@ namespace SportsOrderApp.Entities
         public virtual JsTblUser? User { get; set; }
         public virtual ICollection<JsTblMockupAttachment> JsTblMockupAttachments { get; set; }
         public virtual ICollection<JsTblMockupLog> JsTblMockupLogs { get; set; }
+        public virtual ICollection<JsTblOrderRequest> JsTblOrderRequests { get; set; }
     }
 }

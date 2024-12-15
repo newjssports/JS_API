@@ -14,8 +14,13 @@ namespace SportsOrderApp.Repositories
         public interface IFabricTypeRepository : IRepository<JsTblFabricType> { }
         public interface INeckStyleRepository : IRepository<JsTblNeckStyle> { }
         public interface IUserRepository : IRepository<JsTblUser> { }
+        public interface IVerificationCodeRepository : IRepository<JsTblVerificationCode> { }
         public interface IProductSizeListRepository : IRepository<JsTblProductSizeList> { }
+        public interface IProductPriceListRepository : IRepository<JsTblPriceList> { }
+        public interface IProductSizePriceDetailRepository : IRepository<JsTblProductSizePriceDetail> { }
+        public interface IProductSizePriceMasterRepository : IRepository<JsTblProductSizePriceMaster> { }
         public interface IMockupRepository : IRepository<JsTblMockup> { }
+        public interface IMockupLogRepository : IRepository<JsTblMockupLog> { }
         public interface IMockupAttachmentRepository : IRepository<JsTblMockupAttachment> { }
         #region Mockup Design Steps User Rights
         public interface IMockupDesignStepsNameRepository : IRepository<JsTblMockupDesignStepsName> { }

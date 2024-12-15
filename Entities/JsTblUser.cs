@@ -12,8 +12,11 @@ namespace SportsOrderApp.Entities
             JsTblMockupLogHostUsers = new HashSet<JsTblMockupLog>();
             JsTblMockups = new HashSet<JsTblMockup>();
             JsTblOrderDesignStepUserRights = new HashSet<JsTblOrderDesignStepUserRight>();
+            JsTblOrderRequestLogs = new HashSet<JsTblOrderRequestLog>();
+            JsTblOrderRequests = new HashSet<JsTblOrderRequest>();
             JsTblPriceLists = new HashSet<JsTblPriceList>();
             JsTblProductSizePriceMasters = new HashSet<JsTblProductSizePriceMaster>();
+            JsTblVerificationCodes = new HashSet<JsTblVerificationCode>();
         }
 
         public long UserId { get; set; }
@@ -24,7 +27,7 @@ namespace SportsOrderApp.Entities
         public string? FullName { get; set; }
         public string? Password { get; set; }
         public string? Salt { get; set; }
-        public string? Mobile { get; set; }
+        public string Mobile { get; set; } = null!;
         public string? Mobile2 { get; set; }
         public string? Phone { get; set; }
         public string? Phone2 { get; set; }
@@ -40,6 +43,12 @@ namespace SportsOrderApp.Entities
         public string? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public long? EmpId { get; set; }
+        public int? Pin { get; set; }
+        public bool? IsPinConfirmed { get; set; }
+        public bool? IsVerified { get; set; }
+        public bool? PrivacyPolicyAccepted { get; set; }
+        public string IcNumber { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         public virtual JsTblRole? Role { get; set; }
         public virtual ICollection<JsTblMockupDesignStepUserRight> JsTblMockupDesignStepUserRights { get; set; }
@@ -47,7 +56,10 @@ namespace SportsOrderApp.Entities
         public virtual ICollection<JsTblMockupLog> JsTblMockupLogHostUsers { get; set; }
         public virtual ICollection<JsTblMockup> JsTblMockups { get; set; }
         public virtual ICollection<JsTblOrderDesignStepUserRight> JsTblOrderDesignStepUserRights { get; set; }
+        public virtual ICollection<JsTblOrderRequestLog> JsTblOrderRequestLogs { get; set; }
+        public virtual ICollection<JsTblOrderRequest> JsTblOrderRequests { get; set; }
         public virtual ICollection<JsTblPriceList> JsTblPriceLists { get; set; }
         public virtual ICollection<JsTblProductSizePriceMaster> JsTblProductSizePriceMasters { get; set; }
+        public virtual ICollection<JsTblVerificationCode> JsTblVerificationCodes { get; set; }
     }
 }

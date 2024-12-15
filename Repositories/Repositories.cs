@@ -24,9 +24,18 @@ namespace SportsOrderApp.Repositories
     {
         public ProductRepository(JSDBContext context) : base(context) { }
     }
+    public class ProductPriceListRepository : Repository<JsTblPriceList>, IProductPriceListRepository
+    {
+        public ProductPriceListRepository(JSDBContext context) : base(context) { }
+    }
     public class UserRepository : Repository<JsTblUser>, IUserRepository
     {
         public UserRepository(JSDBContext context) : base(context) { }
+    }
+
+    public class VerificationCodeRepository : Repository<JsTblVerificationCode>, IVerificationCodeRepository
+    {
+        public VerificationCodeRepository(JSDBContext context) : base(context) { }
     }
 
     public class ProductSizeListRepository : Repository<JsTblProductSizeList>, IProductSizeListRepository
@@ -37,6 +46,10 @@ namespace SportsOrderApp.Repositories
     public class MockupRepository : Repository<JsTblMockup>, IMockupRepository
     {
         public MockupRepository(JSDBContext context) : base(context) { }
+    }
+    public class MockupLogRepository : Repository<JsTblMockupLog>, IMockupLogRepository
+    {
+        public MockupLogRepository(JSDBContext context) : base(context) { }
     }
 
     public class MockupAttachmentRepository : Repository<JsTblMockupAttachment>, IMockupAttachmentRepository
@@ -156,5 +169,15 @@ namespace SportsOrderApp.Repositories
     public class PriceListRepository : Repository<PriceList>, IPriceListRepository
     {
         public PriceListRepository(JSDBContext context) : base(context) { }
+    }
+
+    public class ProductSizePriceDetailRepository : Repository<JsTblProductSizePriceDetail>, IProductSizePriceDetailRepository
+    {
+        public ProductSizePriceDetailRepository(JSDBContext context) : base(context) { }
+    }
+
+    public class ProductSizePriceMasterRepository : Repository<JsTblProductSizePriceMaster>, IProductSizePriceMasterRepository
+    {
+        public ProductSizePriceMasterRepository(JSDBContext context) : base(context) { }
     }
 }

@@ -20,5 +20,6 @@ namespace SportsOrderApp.Repositories
         void Update(T entity);
         void Delete(T entity);
         void Commit();
+        Task<long> GetNextMaxValueAsync(string tableName, string columnName);
     }
 }

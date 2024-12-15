@@ -15,11 +15,16 @@ namespace SportsOrderApp.Core
             services.AddScoped<IFabricTypeRepository, FabricTypeRepository>();
             services.AddScoped<INeckStyleRepository, NeckStyleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
             services.AddScoped<IProductSizeListRepository, ProductSizeListRepository>();
 
             services.AddScoped<IMockupRepository, MockupRepository>();
+            services.AddScoped<IMockupLogRepository, MockupLogRepository>();
             services.AddScoped<IMockupAttachmentRepository, MockupAttachmentRepository>();
+            services.AddScoped<IProductPriceListRepository, ProductPriceListRepository>();
 
+            services.AddScoped<IProductSizePriceDetailRepository, ProductSizePriceDetailRepository>();
+            services.AddScoped<IProductSizePriceMasterRepository, ProductSizePriceMasterRepository>();
             #region Mockup Design Steps User Rights
             services.AddScoped<IMockupDesignStepsNameRepository, MockupDesignStepsNameRepository>();
             services.AddScoped<IMockupDesignStepRepository, MockupDesignStepRepository>();
