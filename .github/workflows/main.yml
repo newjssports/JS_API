@@ -1,0 +1,41 @@
+name: Deploy .NET API
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore ./YourApiProject.sln
+
+      - name: Build API
+        run: dotnet build --configuration Release ./YourApiProject.sln
+
+      - name: Publish API
+        run: dotnet publish ./YourApiProject.sln --configuration Release --output ./publish
+
+      - name: Deploy to VPS (Linux/Windows)
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.160.238.36.109 }}
+          username: ${{ secrets.jssports0007@gmail.com }}
+          password: ${{ secrets.Angular@123 }}
+          source: "./publish"
+          target: "/var/www/api"
+
+      - name: Restart API Service (Linux)
+        run: |
+          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} 'sudo systemctl restart kestrel-api'
