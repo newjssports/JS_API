@@ -1,4 +1,4 @@
-name: Deploy .NET API
+name: Deploy .NET API to Hostinger
 
 on:
   push:
@@ -6,36 +6,36 @@ on:
       - master
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up .NET SDK
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 8.0.x
+          dotnet-version: '8.0'
 
-      - name: Restore dependencies
-        run: dotnet restore ./YourApiProject.sln
+      - name: Publish .NET Application
+        run: dotnet publish -c Release -o ./publish
 
-      - name: Build API
-        run: dotnet build --configuration Release ./YourApiProject.sln
-
-      - name: Publish API
-        run: dotnet publish ./YourApiProject.sln --configuration Release --output ./publish
-
-      - name: Deploy to VPS (Linux/Windows)
-        uses: appleboy/scp-action@master
+      - name: Deploy to Hostinger via SSH
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.160.238.36.109 }}
-          username: ${{ secrets.jssports0007@gmail.com }}
-          password: ${{ secrets.Angular@123 }}
-          source: "./publish"
-          target: "/var/www/api"
+          username: ${{ secrets.root }}
+          key: ${{ secrets.ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCiTYpwCNRZxIq/5oU0PolCBNx/mnFjPUf2vDCXGGZpp5ud845M8LPbnF0lNZd2CCfKx4YHyrT39a6V+BpnUq/jCIUvXSMifFgQDFiwfcPrT4lN5GdEKrbPMhw0Q/GkqIO+W62F2BxxgvHO4v4JsRY5dS8QprmiaZ8Yem/NQJ388kK260hAjUyUIdRNw/6iOMTLFvTTDAQ+BEuWL0dy64cSzfbGbgUk2Ouxbp8fjRsRRhiyPw29X3U/A9YUGq05fIYKR3I4SSkLZ8uqPJkSyjfBZqwh1CegOhb+0qwnotYaUmyNDfxtFCl1lEwZZh/6KVrSNDAlSks5EVByi5bsSW6T rsa-key-20241217 }}
+          source: "./publish/*"
+          target: "/var/www/jssports"
 
-      - name: Restart API Service (Linux)
-        run: |
-          ssh ${{ secrets.VPS_USERNAME }}@${{ secrets.VPS_HOST }} 'sudo systemctl restart kestrel-api'
+      - name: Restart .NET Service
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.160.238.36.109 }}
+          username: ${{ secrets.root }}
+          key: ${{ secrets.ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCiTYpwCNRZxIq/5oU0PolCBNx/mnFjPUf2vDCXGGZpp5ud845M8LPbnF0lNZd2CCfKx4YHyrT39a6V+BpnUq/jCIUvXSMifFgQDFiwfcPrT4lN5GdEKrbPMhw0Q/GkqIO+W62F2BxxgvHO4v4JsRY5dS8QprmiaZ8Yem/NQJ388kK260hAjUyUIdRNw/6iOMTLFvTTDAQ+BEuWL0dy64cSzfbGbgUk2Ouxbp8fjRsRRhiyPw29X3U/A9YUGq05fIYKR3I4SSkLZ8uqPJkSyjfBZqwh1CegOhb+0qwnotYaUmyNDfxtFCl1lEwZZh/6KVrSNDAlSks5EVByi5bsSW6T rsa-key-20241217 }}
+          script: |
+            sudo systemctl restart myapp.service
+            sudo systemctl status myapp.service
